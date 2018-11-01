@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>XYZ Company - Create Guest Account</title>
+    <title>XYZ Company - Create Employee Account</title>
     <?php
 
     function checkForm() {
         if (isset($_POST['submit'])) {
             if (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['retype-password'])
                 && !empty($_POST['email']) && !empty($_POST['firstname']) && !empty($_POST['lastname'])
-                && !empty($_POST['phone']) && !empty($_POST['address'])) {
+                && !empty($_POST['phone']) && !empty($_POST['address']) && !empty($_POST['emp_id'])
+                    && isset($_POST['emp_type'])) {
 
                 // Declaring Server Variables
                 $host = "localhost";
@@ -22,15 +23,17 @@
                 $username = mysqli_real_escape_string($con, $_POST['username']);
                 $password = mysqli_real_escape_string($con, $_POST['password']);
                 $retypepassword = $_POST['retype-password'];
+                $emp_id = $_POST['emp_id'];
                 $email = $_POST['email'];
                 $firstname = $_POST['firstname'];
                 $lastname = $_POST['lastname'];
                 $phone = $_POST['phone'];
                 $address = $_POST['address'];
+                $emp_type = $_POST['emp_type'];
 
                 if ($password == $retypepassword) {
 
-                    $query = "SELECT username FROM guest_accounts WHERE username = '$username'";
+                    $query = "SELECT username FROM emp_accounts WHERE username = '$username'";
 
                     $result = mysqli_query($con, $query) or die("Sorry, we couldn't retrieve your information" . mysqli_error($con));
 
@@ -42,8 +45,9 @@
                     } else {
                         // Username NOT being used
                         // Create a new account
-                        $query = "INSERT INTO `guest_accounts`(`username`, `password`, `phone`, `email`, `FirstName`, `Lastname`, `Address`) 
-                            VALUES ('$username','$password','$email','$firstname','$lastname','$phone','$address')";
+                        $query = "INSERT INTO `emp_accounts`(`username`, `password`, `Emp_id`, `phone`, `email`, 
+                              `FirstName`, `Lastname`, `Address`, `category_emp`) 
+                                VALUES ('$username','$password','$emp_id','$phone','$email','$firstname','$lastname','$address','$emp_type')";
                         $result = mysqli_query($con, $query) or die("Sorry, we couldn't store your information" . mysqli_error($con));
 
                         if ($result) {
@@ -67,20 +71,24 @@
 </head>
 <body>
 
-<h1>Create a new Guest Account</h1>
+<h1>Create a new Employee Account</h1>
 
 
-<p><?php checkForm() ?></p>
+<p><b></b><?php checkForm() ?></b></p>
 
     <form method="post" action="">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username">
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password">
-        <br>
-        <label for="retype-password">Re-type Password:</label>
-        <input type="password" name="retype-password" id="retype-password">
+        <fieldset>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password">
+            <br>
+            <label for="retype-password">Re-type Password:</label>
+            <input type="password" name="retype-password" id="retype-password">
+        </fieldset>
+        <label for="emp_id">Employee ID:</label>
+        <input type="text" name="emp_id" id="emp_id">
         <br>
         <label for="email">Email:</label>
         <input type="email" name="email" id="email">
@@ -97,9 +105,17 @@
         <label for="address">Address:</label>
         <input type="text" name="address" id="address">
         <br>
+        <fieldset>
+            <legend>Employee Category:</legend>
+            <input type="radio" name="emp_type" value="regular" checked>Regular
+            <input type="radio" name="emp_type" value="admin">Administrator
+        </fieldset>
+        <br>
+        <br>
 
         <button type="submit" value="submited" name="submit">Create Account</button>
         <button type="reset" value="reset">Clear</button>
+
 
 
     </form>

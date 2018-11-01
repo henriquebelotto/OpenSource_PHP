@@ -73,15 +73,17 @@
 <p><?php checkForm() ?></p>
 
     <form method="post" action="">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username">
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password">
-        <br>
-        <label for="retype-password">Re-type Password:</label>
-        <input type="password" name="retype-password" id="retype-password">
-        <br>
+        <fieldset>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password">
+            <br>
+            <label for="retype-password">Re-type Password:</label>
+            <input type="password" name="retype-password" id="retype-password">
+            <br>
+        </fieldset>
         <label for="email">Email:</label>
         <input type="email" name="email" id="email">
         <br>
