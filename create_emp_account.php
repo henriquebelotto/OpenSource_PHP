@@ -15,12 +15,14 @@
     <title>XYZ Company - Create Employee Account</title>
     <?php
 
-    function checkForm() {
+    function checkForm()
+    {
+
         if (isset($_POST['submit'])) {
             if (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['retype-password'])
                 && !empty($_POST['email']) && !empty($_POST['firstname']) && !empty($_POST['lastname'])
                 && !empty($_POST['phone']) && !empty($_POST['address']) && !empty($_POST['emp_id'])
-                    && isset($_POST['emp_type'])) {
+                && isset($_POST['emp_type'])) {
 
                 // Declaring Server Variables
                 $host = "localhost";
@@ -41,32 +43,59 @@
                 $address = $_POST['address'];
                 $emp_type = $_POST['emp_type'];
 
+
                 if ($password == $retypepassword) {
-
-                    $query = "SELECT username FROM emp_accounts WHERE username = '$username'";
-
+                    // Checking that both password match
+                    $query = "SELECT username FROM `useraccounts` WHERE username = '$username'";
                     $result = mysqli_query($con, $query) or die("Sorry, we couldn't retrieve your information" . mysqli_error($con));
 
                     if ((mysqli_num_rows($result) > 0)) {
+                        // Checking if the username is already been used. This must be unique
                         // username already being used.
                         // Cannot create a new account
                         echo "Sorry, this username is already being used!";
 
                     } else {
-                        // Username NOT being used
-                        // Create a new account
-                        $query = "INSERT INTO `emp_accounts`(`username`, `password`, `Emp_id`, `phone`, `email`, 
-                              `FirstName`, `Lastname`, `Address`, `category_emp`) 
-                                VALUES ('$username','$password','$emp_id','$phone','$email','$firstname','$lastname','$address','$emp_type')";
-                        $result = mysqli_query($con, $query) or die("Sorry, we couldn't store your information" . mysqli_error($con));
 
-                        if ($result) {
-                            header("location: login page.html");
+                        $query = "SELECT email FROM `useraccounts` WHERE email = '$email'";
+                        $result = mysqli_query($con, $query) or die("Sorry, we couldn't retrieve your information" . mysqli_error($con));
+
+                        if ((mysqli_num_rows($result) > 0)) {
+                            // Checking if the email is already been used. This must be unique
+                            // email already being used.
+                            // Cannot create a new account
+                            echo "Sorry, this email is already being used!";
                         } else {
-                            echo "Sorry, we could NOT create an account at this time";
+
+                            $query = "SELECT emp_id FROM `useraccounts` WHERE emp_id = '$emp_id'";
+                            $result = mysqli_query($con, $query) or die("Sorry, we couldn't retrieve your information" . mysqli_error($con));
+
+                            if ((mysqli_num_rows($result) > 0)) {
+                                // Checking if the emp_id is already been used. This must be unique
+                                // username already being used.
+                                // Cannot create a new account
+                                echo "Sorry, this email is already being used!";
+                            } else {
+                                // Username & email & emp_id NOT being used
+                                // Create a new account
+                                $query = "INSERT INTO `useraccounts`(`username`, `password`, `Emp_id`, `phone`, `email`, 
+                                  `FirstName`, `Lastname`, `Address`, `category_emp`) 
+                                  VALUES ('$username','$password','$emp_id','$phone','$email','$firstname','$lastname','$address','$emp_type')";
+
+                                $result = mysqli_query($con, $query) or die("Sorry, we couldn't store your information" . mysqli_error($con));
+                                echo "ALMOST!";
+
+                                if ($result) {
+                                    // account created, redirect to login webpage
+                                    header("location: admin_account.php");
+                                } else {
+                                    echo "Sorry, we could NOT create an account at this time";
+                                }
+                            }
                         }
                     }
                 } else {
+                    // Password didn't match
                     echo "Sorry, your passwords do not match!";
                 }
 
@@ -75,6 +104,7 @@
                 echo "Sorry, you must fill all the information before proceeding!";
             }
         }
+
     }
 
     ?>
@@ -82,11 +112,10 @@
 <body>
 
 
-
-
 <?php
+session_start();
 // MODIFY THIS CONDITION WHEN THE LOGIN PAGE (INDEX) IS WORKING
-if (!isset($_SESSION['TicketAdmin'])) {
+if (isset($_SESSION['Admin'])) {
     echo '
 <div class="container">
     <div>
@@ -97,7 +126,9 @@ if (!isset($_SESSION['TicketAdmin'])) {
     <div class="jumbotron bg-secondary">
 
         <div>
-            <h5 class="text-center"><b><?php checkForm() ?></b></h5>
+            <h5 class="text-center"><b>';
+    checkForm();
+    echo '</b></h5>
         </div>
 
         <form method="post" action="">
@@ -183,6 +214,11 @@ if (!isset($_SESSION['TicketAdmin'])) {
 </div>
 
 ';
+} else {
+    // User not authorized to access this web page. Redirect to login page
+
+    header("location:index.php");
+
 }
 ?>
 </body>
