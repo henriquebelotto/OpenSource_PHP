@@ -15,7 +15,8 @@
     <title>XYZ Company - Create Guest Account</title>
     <?php
 
-    function checkForm() {
+    function checkForm()
+    {
         if (isset($_POST['submit'])) {
             if (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['retype-password'])
                 && !empty($_POST['email']) && !empty($_POST['firstname']) && !empty($_POST['lastname'])
@@ -38,9 +39,12 @@
                 $phone = $_POST['phone'];
                 $address = $_POST['address'];
 
+                // Hardcoded emp_type for guests
+                $emp_type = 'Guest';
+
                 if ($password == $retypepassword) {
 
-                    $query = "SELECT username FROM guest_accounts WHERE username = '$username'";
+                    $query = "SELECT username FROM `useraccounts` WHERE username = '$username'";
 
                     $result = mysqli_query($con, $query) or die("Sorry, we couldn't retrieve your information" . mysqli_error($con));
 
@@ -50,16 +54,38 @@
                         echo "Sorry, this username is already being used!";
 
                     } else {
-                        // Username NOT being used
-                        // Create a new account
-                        $query = "INSERT INTO `guest_accounts`(`username`, `password`, `phone`, `email`, `FirstName`, `Lastname`, `Address`) 
-                            VALUES ('$username','$password','$email','$firstname','$lastname','$phone','$address')";
-                        $result = mysqli_query($con, $query) or die("Sorry, we couldn't store your information" . mysqli_error($con));
 
-                        if ($result) {
-                            header("location: login page.html");
+                        $query = "SELECT email FROM `useraccounts` WHERE email = '$email'";
+                        $result = mysqli_query($con, $query) or die("Sorry, we couldn't retrieve your information" . mysqli_error($con));
+
+                        if ((mysqli_num_rows($result) > 0)) {
+                            // username already being used.
+                            // Cannot create a new account
+                            echo "Sorry, this email is already being used!";
                         } else {
-                            echo "Sorry, we could NOT create an account at this time";
+
+                            // Username NOT being used
+                            // Create a new account
+
+                            // Verify next Guest user_id available
+                            $query = "SELECT COUNT(*) FROM `useraccounts` WHERE category_emp LIKE 'Guest%'";
+                            $result = mysqli_query($con, $query) or die("Sorry, we couldn't store your information" . mysqli_error($con));
+
+                            // Auto-genereting a Guest# id for the guest user
+                            $row = mysqli_fetch_row($result);
+                            $emp_id = 'Guest' . ($row[0] + 1);
+
+                            $query = "INSERT INTO `useraccounts`(`username`, `password`, `Emp_id`, `phone`, `email`, 
+                            `FirstName`, `Lastname`, `Address`, `category_emp`) 
+                            VALUES ('$username','$password','$emp_id',$phone,'$email','$firstname','$lastname','$address','$emp_type')";
+                            $result = mysqli_query($con, $query) or die("Sorry, we couldn't store your information" . mysqli_error($con));
+
+
+                            if ($result) {
+                                header("location: index.php");
+                            } else {
+                                echo "Sorry, we could NOT create an account at this time";
+                            }
                         }
                     }
                 } else {
@@ -80,7 +106,7 @@
 <div>
 
     <div>
-    <h1 class="jumbotron text-center bg-info">Create a new Guest Account</h1>
+        <h1 class="jumbotron text-center bg-info">Create a new Guest Account</h1>
     </div>
 
     <div class="jumbotron bg-secondary">
@@ -103,11 +129,13 @@
             <div class="form-inline form-row justify-content-center form-group">
                 <div class="form-group col-5">
                     <label class="col-form-label col-4" for="password"><b>Password:</b></label>
-                    <input class="form-control col-8" type="password" name="password" id="password" placeholder="Enter password">
+                    <input class="form-control col-8" type="password" name="password" id="password"
+                           placeholder="Enter password">
                 </div>
                 <div class="form-group col-5">
                     <label class="col-form-label col-4" for="retype-password"><b>Re-type Password:</b></label>
-                    <input class="form-control col-8" type="password" name="retype-password" id="retype-password" placeholder="Re-type password">
+                    <input class="form-control col-8" type="password" name="retype-password" id="retype-password"
+                           placeholder="Re-type password">
                 </div>
             </div>
 
@@ -122,13 +150,15 @@
                 </div>
             </div>
             <div class="form-inline form-row justify-content-center form-group">
-                <div  class="form-group col-5">
+                <div class="form-group col-5">
                     <label class="col-form-label col-4" for="firstname"><b>First Name:</b></label>
-                    <input class="form-control col-8" type="text" name="firstname" id="firstname" placeholder="Enter First Name">
+                    <input class="form-control col-8" type="text" name="firstname" id="firstname"
+                           placeholder="Enter First Name">
                 </div>
-                <div  class="form-group col-5">
-                    <label class="col-form-label col-4"  for="lastname"><b>Last Name:</b></label>
-                    <input class="form-control col-8" type="text" name="lastname" id="lastname" placeholder="Enter First Name">
+                <div class="form-group col-5">
+                    <label class="col-form-label col-4" for="lastname"><b>Last Name:</b></label>
+                    <input class="form-control col-8" type="text" name="lastname" id="lastname"
+                           placeholder="Enter First Name">
                 </div>
             </div>
             <div class="form-inline form-row justify-content-center form-group">
@@ -143,7 +173,8 @@
             </div>
 
             <div class="form-group form-inline justify-content-center">
-                <button class="btn btn-success mr-3" type="submit" value="submited" name="submit">Create Account</button>
+                <button class="btn btn-success mr-3" type="submit" value="submited" name="submit">Create Account
+                </button>
                 <button class="btn btn-danger" type="reset" value="reset">Clear</button>
             </div>
 
@@ -151,9 +182,7 @@
     </div>
 
 
-
 </div>
-
 
 
 </body>

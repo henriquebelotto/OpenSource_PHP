@@ -18,7 +18,7 @@
 <body>
 
 <?php
-
+session_start();
 // MODIFY THIS CONDITION WHEN THE LOGIN PAGE (INDEX) IS WORKING
 if (isset($_SESSION['TicketAdmin'])) {
 
