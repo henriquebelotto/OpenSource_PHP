@@ -90,14 +90,17 @@
     <div class="jumbotron bg-secondary">
 
         <div>
-            <h5><b><?php checkForm() ?></b></h5>
+            <h5 class="text-center"><b><?php checkForm() ?></b></h5>
         </div>
 
         <form method="post" action="">
-            <div class="form-inline justify-content-center form-row form-group">
-                <div class="form-group col-10">
-                    <label class="col-form-label col-2" for="username"><b>Username:</b></label>
-                    <input class="form-control col-10" type="text" name="username" id="username"
+            <div class="form-inline justify-content-start form-row form-group">
+                <div class="col-1">
+
+                </div>
+                <div class="form-group col-5">
+                    <label class="col-form-label col-4" for="username"><b>Username:</b></label>
+                    <input class="form-control col-8" type="text" name="username" id="username"
                            placeholder="Enter username">
                 </div>
             </div>
