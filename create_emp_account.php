@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge"> <!-- edge compatible -->
+    <link rel="stylesheet" class="card-link" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script src="script/jquery-3.2.1.js"></script>
+    <script src="script/tether.js"></script>
+    <script src="script/bootstrap.js"></script>
+    <script type="text/javascript" src="script/javascript.js"></script>
     <title>XYZ Company - Create Employee Account</title>
     <?php
 
@@ -71,55 +81,92 @@
 </head>
 <body>
 
-<h1>Create a new Employee Account</h1>
-
-
+<div class="container">
+    <div>
+    <h1 class="text-center jumbotron bg-info">Create a new Employee Account</h1>
+    </div>
 <p><b></b><?php checkForm() ?></b></p>
 
-    <form method="post" action="">
-        <fieldset>
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username">
-            <br>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password">
-            <br>
-            <label for="retype-password">Re-type Password:</label>
-            <input type="password" name="retype-password" id="retype-password">
-        </fieldset>
-        <label for="emp_id">Employee ID:</label>
-        <input type="text" name="emp_id" id="emp_id">
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email">
-        <br>
-        <label for="firstname">First Name:</label>
-        <input type="text" name="firstname" id="firstname">
-        <br>
-        <label for="lastname">Last Name:</label>
-        <input type="text" name="lastname" id="lastname">
-        <br>
-        <label for="phone">Phone:</label>
-        <input type="text" name="phone" id="phone">
-        <br>
-        <label for="address">Address:</label>
-        <input type="text" name="address" id="address">
-        <br>
-        <fieldset>
-            <legend>Employee Category:</legend>
-            <input type="radio" name="emp_type" value="regular" checked>Regular
-            <input type="radio" name="emp_type" value="admin">Administrator
-        </fieldset>
-        <br>
-        <br>
 
-        <button type="submit" value="submited" name="submit">Create Account</button>
-        <button type="reset" value="reset">Clear</button>
+    <div class="jumbotron bg-secondary">
+        <form method="post" action="">
+            <div class="form-inline justify-content-center form-row form-group">
+                <div class="form-group col-10">
+                    <label class="col-form-label col-2" for="username"><b>Username:</b></label>
+                    <input class="form-control col-10" type="text" name="username" id="username"
+                           placeholder="Enter username">
+                </div>
+            </div>
+            <div class="form-inline form-row justify-content-center form-group">
+                <div class="form-group col-5">
+                    <label class="col-form-label col-4" for="password"><b>Password:</b></label>
+                    <input class="form-control col-8" type="password" name="password" id="password" placeholder="Enter password">
+                </div>
+                <div class="form-group col-5">
+                    <label class="col-form-label col-4" for="retype-password"><b>Re-type Password:</b></label>
+                    <input class="form-control col-8" type="password" name="retype-password" id="retype-password" placeholder="Re-type password">
+                </div>
+            </div>
+
+            <div class="form-inline form-row justify-content-center form-group">
+                <div class="form-group col-5">
+                    <label class="col-form-label col-4" for="email"><b>Email:</b></label>
+                    <input class="form-control col-8" type="email" name="email" id="email" placeholder="Enter email">
+                </div>
+                <div class="form-group col-5">
+                    <label class="col-form-label col-4" for="emp_id"><b>Employee ID:</b></label>
+                    <input class="form-control col-8" type="text" name="emp_id" id="emp_id" placeholder="Enter Employee ID">
+                </div>
+
+            </div>
+
+            <div class="form-inline form-row justify-content-center form-group">
+                <div  class="form-group col-5">
+                    <label class="col-form-label col-4" for="firstname"><b>First Name:</b></label>
+                    <input class="form-control col-8" type="text" name="firstname" id="firstname" placeholder="Enter First Name">
+                </div>
+                <div  class="form-group col-5">
+                    <label class="col-form-label col-4"  for="lastname"><b>Last Name:</b></label>
+                    <input class="form-control col-8" type="text" name="lastname" id="lastname" placeholder="Enter First Name">
+                </div>
+            </div>
+            <div class="form-inline form-row justify-content-center form-group">
+                <div class="form-group col-5">
+                    <label class="col-form-label col-4" for="phone"><b>Phone:</b></label>
+                    <input class="form-control col-8" type="text" name="phone" id="phone">
+                </div>
+                <div class="form-group col-5">
+                    <label class="col-form-label col-4" for="address"><b>Address:</b></label>
+                    <input class="form-control col-8" type="text" name="address" id="address">
+                </div>
+            </div>
+
+            <div class="form-group form-inline form-row justify-content-center">
+                <div class="form-group">
+                    <label class="form-check-label"><b>Employee Category:</b></label>
+                </div>
+                <div class="form-group form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="emp_type" value="regular"
+                           checked>
+                    <label class="form-check-label">Regular</label>
+                </div>
+                <div class="form-group form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="emp_type" value="admin">
+                    <label class="form-check-label">Administrator</label>
+                </div>
 
 
+            </div>
 
-    </form>
+            <div>
+            <button type="submit" value="submited" name="submit">Create Account</button>
+            <button type="reset" value="reset">Clear</button>
+            </div>
 
+        </form>
+
+    </div>
+</div>
 </body>
 </html>
 
