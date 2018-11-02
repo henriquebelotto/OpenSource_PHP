@@ -85,10 +85,14 @@
     <div>
     <h1 class="text-center jumbotron bg-info">Create a new Employee Account</h1>
     </div>
-<p><b></b><?php checkForm() ?></b></p>
 
 
     <div class="jumbotron bg-secondary">
+
+        <div>
+            <h5><b><?php checkForm() ?></b></h5>
+        </div>
+
         <form method="post" action="">
             <div class="form-inline justify-content-center form-row form-group">
                 <div class="form-group col-10">
@@ -143,7 +147,7 @@
 
             <div class="form-group form-inline form-row justify-content-center">
                 <div class="form-group">
-                    <label class="form-check-label"><b>Employee Category:</b></label>
+                    <label class="form-check-label mr-3"><b>Employee Category:</b></label>
                 </div>
                 <div class="form-group form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="emp_type" value="regular"
@@ -158,9 +162,9 @@
 
             </div>
 
-            <div>
-            <button type="submit" value="submited" name="submit">Create Account</button>
-            <button type="reset" value="reset">Clear</button>
+            <div class="form-group form-inline justify-content-center">
+            <button class="btn btn-success mr-3" type="submit" value="submited" name="submit">Create Account</button>
+            <button class="btn btn-danger" type="reset" value="reset">Clear</button>
             </div>
 
         </form>
