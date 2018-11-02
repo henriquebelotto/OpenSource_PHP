@@ -81,6 +81,13 @@
 </head>
 <body>
 
+
+
+
+<?php
+// MODIFY THIS CONDITION WHEN THE LOGIN PAGE (INDEX) IS WORKING
+if (!isset($_SESSION['TicketAdmin'])) {
+    echo '
 <div class="container">
     <div>
     <h1 class="text-center jumbotron bg-info">Create a new Employee Account</h1>
@@ -174,6 +181,10 @@
 
     </div>
 </div>
+
+';
+}
+?>
 </body>
 </html>
 
